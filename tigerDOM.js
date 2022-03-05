@@ -115,10 +115,18 @@
          *
          * Initialize the toggle controls in your JS like this:
          *
-         *     $().tigerDOM('initToggleControls');
+         *     $().tigerDOM('initTigerControls');
+         *
+         * To toggle a class on an open/close icon, setup your trigger with data attributes of
+         * data-tiger-class-open="tiger-open" and data-tiger-class-close="tiger-close". TigerDOM
+         * will apply these classes to your trigger icon for open and close operations.
+         *
+         *     <div class="p-3 mb-3" style="cursor :pointer;" data-tiger-control="#demo-container" data-tiger-class-open="tiger-open" data-tiger-class-close="tiger-close">
+         *        <i class="fa fa-angle-down mr-1 tiger-open" style="margin-top: -8px; float: left"></i>
+         *     </div>
          *
          */
-        initToggleControls : function ( ) {
+        initTigerControls : function ( ) {
 
             $('[data-tiger-control]').each(function(){
 
@@ -296,44 +304,32 @@
 
                 let $this = $(this);
 
+                // Helps us get a more accurate parentHeight.
+                $this.css('position','relative')
+                    .css('overflow', 'auto');
+
                 // Get the current height of the parent container element 
                 // let parentHeight = $this.prop('clientHeight');
                 let parentHeight = $this.prop('scrollHeight');
 
-                // Now specifically set the height of container element
-                $this.css('height', parentHeight).css('overflow', 'auto');
+                // Now specifically set the height of container element.
+                $this.css('height', parentHeight);
 
                 // Create and insert the content
                 let $content = $( oParams.content ).css('opacity', 0).appendTo( $this );
 
-                // Calculate what the total height of the container needs to be
-                let minHeight = $this.prop('clientHeight');
-
                 $this.css('height', 'auto');
+                // The fully expanded container innerHeight
                 let containerHeight = $this.innerHeight();
-
                 $this.css('overflow','hidden').css('height', parentHeight);
 
-                containerHeight = ( oParams.content !== '')
-                    ? ( minHeight > 0 && minHeight > containerHeight )
-                        ? minHeight
-                        : containerHeight
-                    : 0;
+                // Expand or contract the container
+                containerHeight = ( oParams.content !== '' ) ? containerHeight : 0;
 
                 // Expand/contract the target container to accommodate the new invisible content
-                $this.animate({
-                    'height': containerHeight
-                }, baseTime, function () {
-                    $content.animate({
-                        opacity: 1
-                    }, baseTime, callback( $this[0] ) );
+                $this.animate({'height': containerHeight}, baseTime, function () {
+                    $content.animate({opacity: 1}, baseTime, callback( $this[0] ) );
                 });
-
-                // Sometimes we add messages to wizard forms where the content is not visible. Just
-                // set the height to auto so that we can see the error message.
-                setTimeout(function(){
-                    if ( ! $this.is(':visible') ) { $this.css('height','auto'); }
-                }, 500);
 
                 // Attach a removeClick listener (optional)
                 if (oParams.removeClick && oParams.removeClick === true) {
@@ -368,9 +364,15 @@
             return this.each(function(){
 
                 let $content = $(this);
-                let contentHeight = $content.outerHeight();
+                let contentHeight = $content.outerHeight(true);
 
                 let $parent  = $content.parent();
+
+                // Helps us get more accurate heights.
+                $parent
+                    .css('position','relative')
+                    .css('overflow', 'auto');
+
                 let parentHeight = $parent.innerHeight();
 
                 let height = parseInt(parentHeight - contentHeight, 10);
@@ -383,12 +385,31 @@
                 $parent.css('height', parentHeight);
 
                 return $content.animate({'opacity': 0}, baseTime, function(){
-                    $content.css('height', $content.height).css('overflow', 'hidden');
+
+                    // Computed margins and padding need to dealt with for a smooth animation.
+                    // So we engage in a little CSS gymnastics for a smooth removal of the elements
+                    // that doesn't make the DOM jump around.
+                    let style = $content[0].currentStyle || window.getComputedStyle( $content[0] );
+                    let elHeight = parseInt(style.height,10) +
+                        parseInt(style.marginTop,10) + parseInt(style.marginBottom,10);
+
+                    $content
+                        .css('margin-top', 0)
+                        .css('margin-bottom', 0)
+                        .css('height', elHeight)
+                        .css('overflow', 'hidden')
+                        .css('padding-top', 0)
+                        .css('padding-bottom', 0);
+
                     $content.animate({'height': 0 }, baseTime, function(){
+
                         // Prevent browsers like Chrome from collapsing empty elements
                         if ( adjustedHeight === 0 ) { $parent.css('margin-bottom', '1px') }
+
                         $content.remove();
+
                         return $parent.animate( {'height': adjustedHeight}, baseTime, callback );
+
                     });
                 });
 
@@ -411,6 +432,10 @@
 
                 let $target = $(this);
 
+                $target
+                    .css('position','relative')
+                    .css('overflow', 'auto');
+
                 // fade out all the kids
                 if ($target.children().length > 0) {
 
@@ -430,7 +455,6 @@
                     //Queue removal of any children
                     $target.queue('change', function(next){
                         $target.children().each( function(){ $(this).remove(); } );
-                        // $target.css('height', '0');
                         next();
                     });
 
@@ -439,14 +463,6 @@
                         $target.tigerDOM('insert', oParams);
                         next();
                     });
-
-                    // Queue a callback if it's a function
-                    // if ( typeof oParams.callback == 'function' ) {
-                    //     $target.queue('change', function(next){
-                    //         oParams.callback( this );
-                    //         next();
-                    //     });
-                    // }
 
                     $target.dequeue('change');
 

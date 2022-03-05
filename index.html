@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .jumbotron {
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+            background-color: #e9ecef;
+            border-radius: 0.3rem;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        i.tiger-open {
+            transition: transform 0.4s;
+            transform: rotate(0deg);
+        }
+
+        i.tiger-close {
+            transition: transform 0.4s;
+            transform: rotate(180deg);
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $().tigerDOM("initTigerControls");
+
+            $('.equal-heights').tigerDOM('equalHeights');
+
+            // Open / Close Button
+            $("#open-close-button").on("click", function () {
+                let $container = $(".open-close-container");
+                if ($container.is(":visible")) {
+                    $container.tigerDOM("close");
+                } else {
+                    $container.tigerDOM("open");
+                }
+            });
+
+            // Insert Button
+            $("#insert-button").on("click", function () {
+                let content =
+                    '<div class="alert alert-warning" role="alert">This is a warning alert! Click on it to dismiss.</div>';
+                let message = {
+                    content: content,
+                    removeClick: true,
+                    removeTimeout: 0,
+                    callback: null
+                };
+                $("#message-container").tigerDOM("insert", message);
+            });
+
+            // Insert Button
+            $("#insert-timed-button").on("click", function () {
+                let content =
+                    '<div class="alert alert-danger" role="alert">This is error alert will self-dismiss in 5 seconds!</div>';
+                let message = {
+                    content: content,
+                    removeClick: true,
+                    removeTimeout: 5000,
+                    callback: null
+                };
+                $("#message-container").tigerDOM("insert", message);
+            });
+
+            // Change Button
+            $("#change-button").on("click", function () {
+                let content =
+                    '<div class="alert alert-info" role="alert">This is an information alert that replaces other content.</div>';
+                let message = {
+                    content: content,
+                    removeClick: true,
+                    removeTimeout: 0,
+                    callback: null
+                };
+                $("#message-container").tigerDOM("change", message);
+            });
+
+        });
+    </script>
+</head>
+<body>
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <div id="message-container" class="tiger-container">
+                <div class="alert alert-success" role="alert">
+                    This is a success alert—check it out!
+                </div>
+            </div>
+            <h1 class="display-3">Hello, TigerDOM!</h1>
+            <div class="content">
+                <p>This is a fully functional page that illustrates the TigerDOM elegant animations using a single file. Feel free to inspect this page using your browser's dev tools or on GitHub. Click the button below to learn more about TigerDOM on GitHub.</p>
+                <p><a class="btn btn-primary btn-lg" href="https://github.com/WebTigers/tigerDOM" role="button" target="_blank">Learn more »</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-4 equal-heights">
+                <h2>Open / Close</h2>
+                <div class="open-close-container">
+                    <p>It's usually bad form to hide things that will make your buttons move, but for this example we'll make an exception. Click the button to show and hide the column's text content.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <p><button id="open-close-button" type="button" class="btn btn-secondary" role="button">Click Me</button></p>
+            </div>
+            <div class="col-md-4 equal-heights">
+                <h2>Insert</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p>
+                    <button id="insert-button" type="button" class="btn btn-secondary" role="button">Click Me</button>
+                    <button id="insert-timed-button" type="button" class="btn btn-warning" role="button">Click Me</button>
+                </p>
+            </div>
+            <div class="col-md-4 equal-heights">
+                <h2>Change</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><button id="change-button" type="button" class="btn btn-secondary" role="button">Click Me</button></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="p-3 mb-3" style="cursor :pointer;" data-tiger-control="#demo-container" data-tiger-class-open="tiger-open" data-tiger-class-close="tiger-close">
+                    <hr style="padding: 0; margin: 0 0 0 20px;" />
+                    <i class="fa fa-angle-down mr-1 tiger-open" style="margin-top: -8px; float: left"></i>
+                </div>
+            </div>
+        </div>
+        <div id="demo-container">
+            <div style="margin:0; padding:0; position: relative; overflow:auto;">
+                <h2>Toggle Content</h2>
+                <p>Clicking on the unobtrusive icon (or even the horizonal rule above will toggle this content automagically. Note we can also have an icon indicator.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
+            </div>
+        </div>
+
+        <hr>
+
+    </div> <!-- /container -->
+
+</main>
+<footer class="container">
+    <p>© Company 2017-2018</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+<script src="http://localhost:63342/tigerDOM/tigerDOM.js"></script>
+</body>
+</html>
