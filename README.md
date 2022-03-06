@@ -75,13 +75,25 @@ Initialize the toggle controls in your JS like this:
 $().tigerDOM('initTigerControls');
 ``` 
 ### Toggle an Icon Class with the Container Control 
-To toggle a class on an open/close icon, setup your trigger with data attributes of
+To toggle a class on an open/close icon, setup your trigger with the data attributes of:
 ```html
 data-tiger-class-open="tiger-open" 
 data-tiger-class-close="tiger-close"
 ```
-TigerDOM will apply these classes to your trigger icon for open and close operations. Note that the example uses
-FontAwesome.
+The CSS is whatever you want, but for this example, we'll just rotate a FontAwesome arrow icon:
+````css
+i.tiger-open {
+  transition: transform 0.4s;
+  transform: rotate(0deg);
+}
+
+i.tiger-close {
+  transition: transform 0.4s;
+  transform: rotate(180deg);
+}
+````
+TigerDOM will apply these classes to your trigger icon for open and close operations. Again, note that the example uses a 
+FontAwesome icon.
 ```html
 <div class="p-3 mb-3" style="cursor :pointer;" data-tiger-control="#demo-container" data-tiger-class-open="tiger-open" data-tiger-class-close="tiger-close">
     <i class="fa fa-angle-down mr-1 tiger-open"></i>
