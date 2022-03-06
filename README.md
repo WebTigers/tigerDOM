@@ -1,7 +1,7 @@
 # TigerDOM
 ### An Elegant Animation Library
 
-<hr>
+---
 
 #### Version
 2.0.0
@@ -18,7 +18,7 @@ MIT
 ### TigerDOM on Codepen
 See TigerDOM in action on [Codepen](https://codepen.io/webtigers/pen/wvPNyOa)
 
-<hr>
+---
 
 # Basic Usage
 TigerDOM is a jQuery plugin that allows you to elegantly make basic changes the DOM in a way that is unobtrusive 
@@ -174,5 +174,5 @@ $().tigerDOM('animateCount', {
     callback : function( c ){ console.log( c ); }
 });
 ```
-<hr>
-Copyright &copy; 2012-2022 &bull; WebTIGERS
+---
+<sub>Copyright &copy; 2012-2022 &bull; WebTIGERS</sub>
