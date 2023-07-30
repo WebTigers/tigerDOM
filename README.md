@@ -17,7 +17,7 @@ See TigerDOM in action on [Codepen](https://codepen.io/webtigers/pen/wvPNyOa)
 ---
 ### Read the Medium Article About TigerDOM
 
-## <a href="https://javascript.plainenglish.io/how-to-be-a-goddamned-ui-rock-star-cd6add91d6f7">How To Be A Goddamned UI Rock Star!</a>
+## <a href="https://javascript.plainenglish.io/how-to-be-a-goddamned-ui-rock-star-cd6add91d6f7">How To Be A UI Rock Star!</a>
 <a href="https://javascript.plainenglish.io/how-to-be-a-goddamned-ui-rock-star-cd6add91d6f7"><img src="https://miro.medium.com/max/1200/1*hI2YS38ftvyJgaFlE1Rglw.jpeg" height="400" /></a>
 
 #### TigerDOM makes basic DOM changes easy and elegan in just one line of code!
